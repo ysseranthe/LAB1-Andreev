@@ -131,6 +131,7 @@
     <ClCompile Include="pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LABA1.h" />
     <ClInclude Include="pipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,12 +3,16 @@
 using namespace std;
 
 struct pipe
-{
+{   
     string name;
-    unsigned length;
-    unsigned diameter;
+    int length;
+    int diameter;
     bool repair;
-    pipe(string n, unsigned l, unsigned d, bool r);
+    pipe(string n, int l, int d, bool r);
+    pipe();
+    string getPipeName();
+    int getPipeLength();
+    int getPipeDiameter();
+    bool isRepairing();
+    void setIsRepairing(bool t);
 };
-
-void editPipe(pipe &pipeline);

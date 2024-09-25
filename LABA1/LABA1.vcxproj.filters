@@ -26,5 +26,8 @@
     <ClInclude Include="pipe.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="LABA1.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
