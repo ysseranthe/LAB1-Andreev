@@ -16,4 +16,6 @@ struct cs
 
 	cs();
 	cs(string N, int n, int w, int e);
+
+	void changeOperatingWorkshops(int n);
 };

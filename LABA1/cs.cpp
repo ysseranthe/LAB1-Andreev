@@ -16,6 +16,11 @@ cs::cs(string n, int now, int w, int e)
 	efficiency = e;
 }
 
+void cs::changeOperatingWorkshops(int n)
+{
+	workshopsInOperation += n;
+}
+
 string cs::getName()
 {
 	return name;

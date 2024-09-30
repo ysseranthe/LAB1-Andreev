@@ -2,6 +2,7 @@
 #include <sstream>
 #include <cstring>
 #include <string>
+#include <fstream>
 #include "pipe.h"
 #include "cs.h"
 #include "LABA1.h"
@@ -150,12 +151,12 @@ cs createCs(bool& i, cs newCs) {
         cout << "Enter the efficiency:" << endl;
         while (true) {
             getline(cin, inputEfficiency);
-            if (isInteger(inputEfficiency) && stoi(inputEfficiency) > 0 && stoi(inputEfficiency) < 101) {
+            if (isInteger(inputEfficiency)/* && stoi(inputEfficiency) > 0*/ && stoi(inputEfficiency) < 101) {
                 efficiency = stoi(inputEfficiency);
                 break;
             }
             else {
-                cout << "Enter a number greater than 0 and less than 101" << endl;
+                cout << "Enter a number from 0 to 100" << endl;
             }
         }
 
@@ -175,6 +176,139 @@ void showCs(cs Cs, bool i) {
         cout << "The number of workshops in operation: " << Cs.getWorkshopsInOperation() << endl;
         cout << "The efficiency: " << Cs.getEfficiency() << endl;
     }
+}
+
+void editCs(cs& Cs, bool i) {
+    if (i) {
+        string inputNum;
+        cout << "Enter a number of working workshops to change (- if you reduce it): " << endl;
+
+        while (true) {
+            getline(cin, inputNum);
+            if (isInteger(inputNum) && stoi(inputNum) > -Cs.getWorkshopsInOperation() && stoi(inputNum) + Cs.getWorkshopsInOperation() <= Cs.getNumberOfWorkshops()) {
+                Cs.changeOperatingWorkshops(stoi(inputNum));
+                break;
+            }
+            else {
+                cout << "Try another number" << endl;
+            }
+        }
+    }
+}
+
+void save(pipe Pipe, cs Cs, bool pi, bool csi) {
+    if (pi && csi) {
+        ofstream out;
+        out.open("main.txt");
+        if (out.is_open())
+        {
+            out << Pipe.getPipeName() << endl << Pipe.getPipeLength() << endl << Pipe.getPipeDiameter() << endl << Pipe.isRepairing() << endl << Cs.getName() << endl << Cs.getNumberOfWorkshops() << endl << Cs.getWorkshopsInOperation() << endl << Cs.getEfficiency() << endl;
+        }
+        out.close();
+        cout << "File has been written" << endl;
+    }
+    else if (pi) {
+        ofstream out;
+        out.open("main.txt");
+        if (out.is_open())
+        {
+            out << Pipe.getPipeName() << endl << Pipe.getPipeLength() << endl << Pipe.getPipeDiameter() << endl << Pipe.isRepairing() << endl;
+        }
+        out.close();
+        cout << "File has been written" << endl;
+    }
+    else if (csi) {
+        ofstream out;
+        out.open("main.txt");
+        if (out.is_open())
+        {
+            out << Cs.getName() << endl << Cs.getNumberOfWorkshops() << endl << Cs.getWorkshopsInOperation() << endl << Cs.getEfficiency() << endl;
+        }
+        out.close();
+        cout << "File has been written" << endl;
+    }
+    else {
+        cout << "No data to save" << endl;
+    }
+}
+
+void load(pipe& Pipe, cs& Cs, bool& pipeExists, bool& csExists) {
+    ifstream in("input.txt");
+    if (!in.is_open()) {
+        cout << "Could not open file for reading." << endl;
+        return;
+    }
+
+    string line;
+
+    if (getline(in, line)) {
+        string pipeName = line;
+        int pipeLength, pipeDiameter;
+        bool pipeRepair;
+
+        if (getline(in, line)) {
+            pipeLength = stoi(line);
+        }
+        else {
+            cout << "Error reading pipe length." << endl;
+            return;
+        }
+
+        if (getline(in, line)) {
+            pipeDiameter = stoi(line);
+        }
+        else {
+            cout << "Error reading pipe diameter." << endl;
+            return;
+        }
+
+        if (getline(in, line)) {
+            pipeRepair = (line == "1");
+        }
+        else {
+            cout << "Error reading pipe repair status." << endl;
+            return;
+        }
+
+        Pipe = pipe(pipeName, pipeLength, pipeDiameter, pipeRepair);
+        pipeExists = true;
+    }
+
+
+    if (getline(in, line)) {
+        string csName = line;
+        int numberOfWorkshops, workshopsInOperation, efficiency;
+
+        if (getline(in, line)) {
+            numberOfWorkshops = stoi(line);
+        }
+        else {
+            cout << "Error reading number of workshops." << endl;
+            return;
+        }
+
+        if (getline(in, line)) {
+            workshopsInOperation = stoi(line);
+        }
+        else {
+            cout << "Error reading workshops in operation." << endl;
+            return;
+        }
+
+        if (getline(in, line)) {
+            efficiency = stoi(line);
+        }
+        else {
+            cout << "Error reading efficiency." << endl;
+            return;
+        }
+
+        Cs = cs(csName, numberOfWorkshops, workshopsInOperation, efficiency);
+        csExists = true;
+    }
+
+    in.close();
+    cout << "Data successfully loaded from file." << endl;
 }
 
 int main() {
@@ -210,20 +344,23 @@ int main() {
                     break;
                 }
                 case 4: {
-                    cout << "Edit the pipe" << endl;
+                    //cout << "Edit the pipe" << endl;
                     editPipe(Pipe, pipeExists);
                     break;
                 }
                 case 5: {
-                    cout << "Edit the compressor station" << endl;
+                    //cout << "Edit the compressor station" << endl;
+                    editCs(Cs, csExists);
                     break;
                 }
                 case 6: {
-                    cout << "Save" << endl;
+                    //cout << "Save" << endl;
+                    save(Pipe, Cs, pipeExists, csExists);
                     break;
                 }
                 case 7: {
-                    cout << "Load" << endl;
+                    //cout << "Load" << endl;
+                    load(Pipe, Cs, pipeExists, csExists);
                     break;
                 }
                 default: {
