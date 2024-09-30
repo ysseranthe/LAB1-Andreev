@@ -87,6 +87,26 @@ void showPipe(pipe Pipe, bool i) {
     }
 }
 
+void editPipe(pipe& Pipe, bool i) {
+    string inputStatus;
+    if (i) {
+        cout << "Change the repair status of the pipe?(y/n): " << endl;
+        while (true) {
+            getline(cin, inputStatus);
+            if (inputStatus == "y") {
+                Pipe.setIsRepairing(!Pipe.isRepairing());
+                break;
+            }
+            else if (inputStatus == "n") {
+                break;
+            }
+            else {
+                cout << "(y/n)" << endl;
+            }
+        }
+    }
+}
+
 cs createCs(bool& i, cs newCs) {
     if (!i) {
         cs Cs;
@@ -191,6 +211,7 @@ int main() {
                 }
                 case 4: {
                     cout << "Edit the pipe" << endl;
+                    editPipe(Pipe, pipeExists);
                     break;
                 }
                 case 5: {
