@@ -4,15 +4,19 @@ using namespace std;
 
 struct pipe
 {   
-    string name;
     int length;
     int diameter;
-    bool repair;
-    pipe(string n, int l, int d, bool r);
-    pipe();
-    string getPipeName();
     int getPipeLength();
     int getPipeDiameter();
+
+    bool repair;
     bool isRepairing();
+
+    pipe();
+    pipe(string n, int l, int d, bool r);
+
+    string name;
+    string getPipeName();
+
     void setIsRepairing(bool t);
 };

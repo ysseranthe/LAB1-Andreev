@@ -3,17 +3,17 @@
 #include <cstring>
 #include <string>
 #include "pipe.h"
+#include "cs.h"
 #include "LABA1.h"
 using namespace std;
 
 bool isInteger(string const& str) {
     istringstream iss(str);
     int num;
-    iss >> num;
-    return !iss.fail() && iss.eof();
+    return (iss >> num) && iss.eof();
 }
 
-pipe createPipe(bool &i,pipe PPipe) {
+pipe createPipe(bool &i,pipe newPipe) {
     if (!i) {
         pipe Pipe;
 
@@ -33,7 +33,7 @@ pipe createPipe(bool &i,pipe PPipe) {
 
         cout << "Enter the length:" << endl;
         while (true) {
-            cin >> inputLength;
+            getline(cin, inputLength);
             if (isInteger(inputLength) && stoi(inputLength) > 0) {
                 length = stoi(inputLength);
                 break;
@@ -45,7 +45,7 @@ pipe createPipe(bool &i,pipe PPipe) {
 
         cout << "Enter the diameter:" << endl;
         while (true) {
-            cin >> inputDiameter;
+            getline(cin, inputDiameter);
             if (isInteger(inputDiameter) && stoi(inputDiameter) > 0) {
                 diameter = stoi(inputDiameter);
                 break;
@@ -57,7 +57,7 @@ pipe createPipe(bool &i,pipe PPipe) {
 
         cout << "Is the pipe under repair?(y/n):" << endl;
         while (true) {
-            cin >> inputRepair;
+            getline(cin, inputRepair);
             if (inputRepair == "y") {
                 repair = true;
                 break;
@@ -75,7 +75,7 @@ pipe createPipe(bool &i,pipe PPipe) {
         return Pipe;
     }
     else {
-        return PPipe;
+        return newPipe;
     }
 }
 
@@ -88,6 +88,15 @@ void showPipe(pipe Pipe, bool i) {
     }
 }
 
+cs createCs(bool& i, cs newCs) {
+    if (!i) {
+
+    }
+    else {
+        return newCs;
+    }
+}
+
 int main() {
     string input;
     pipe Pipe;
@@ -95,47 +104,47 @@ int main() {
 
     while (true) {
         cout << "1. Add a pipe\n2. Add CS\n3. View all objects\n4. Edit the pipe\n5. Edit the CS\n6. Save\n7. Upload\n0. Exit" << endl;
-        cin >> input;
+        getline(cin, input);
         if (isInteger(input)) {
             int choose;
             choose = stoi(input);
             switch (choose) {
-            case 0: {
-                return 0;
-            }
-            case 1: {
-                cout << "Add a pipe" << endl;
-                Pipe=createPipe(pipeExists,Pipe);
-                break;
-            }
-            case 2: {
-                cout << "Add CS" << endl;
-                break;
-            }
-            case 3: {
-                showPipe(Pipe, pipeExists);
-                break;
-            }
-            case 4: {
-                cout << "Edit the pipe" << endl;
-                break;
-            }
-            case 5: {
-                cout << "Edit the CS" << endl;
-                break;
-            }
-            case 6: {
-                cout << "Save" << endl;
-                break;
-            }
-            case 7: {
-                cout << "Load" << endl;
-                break;
-            }
-            default: {
-                cout << "Enter number from 0 to 7." << endl;
-                break;
-            }
+                case 0: {
+                    return 0;
+                }
+                case 1: {
+                    cout << "Add a pipe" << endl;
+                    Pipe = createPipe(pipeExists,Pipe);
+                    break;
+                }
+                case 2: {
+                    cout << "Add CS" << endl;
+                    break;
+                }
+                case 3: {
+                    showPipe(Pipe, pipeExists);
+                    break;
+                }
+                case 4: {
+                    cout << "Edit the pipe" << endl;
+                    break;
+                }
+                case 5: {
+                    cout << "Edit the CS" << endl;
+                    break;
+                }
+                case 6: {
+                    cout << "Save" << endl;
+                    break;
+                }
+                case 7: {
+                    cout << "Load" << endl;
+                    break;
+                }
+                default: {
+                    cout << "Enter number from 0 to 7." << endl;
+                    break;
+                }
             }
         }
         else {
